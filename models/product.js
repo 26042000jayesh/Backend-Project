@@ -1,0 +1,27 @@
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema;
+// import { APP_URL } from '../config';
+
+const productSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    size: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    }
+}, {
+    timestamps: true
+});
+
+const productModel = mongoose.model('ProductModel', productSchema, 'products');
+module.exports=productModel;
