@@ -14,4 +14,3 @@ const refreshTokenModel = mongoose.model('refreshTokenModel', refreshTokenSchema
 
 module.exports = refreshTokenModel;
 
-// u8FKKVMEorQcRKlJ
