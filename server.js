@@ -21,7 +21,6 @@ app.use(express.json());
 app.use('/api', routes);
 app.use(errorHandler);
 
-
 const PORT = process.env.PORT || APP_PORT;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}.`));
 
