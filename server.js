@@ -1,6 +1,10 @@
-const express =require("express");
-const mongoose =require("mongoose");
-const { APP_PORT, DB_LINK } = require("./config");
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const {
+    APP_PORT,
+    DB_LINK
+} = require("./config");
 const errorHandler = require("./middlewares/errorHandler");
 const app = express();
 const routes = require("./allRoutes/routes");
@@ -17,12 +21,13 @@ db.once('open', () => {
     console.log('DB connected...');
 });
 
+global.appRoot = path.resolve(__dirname);
+app.use(express.urlencoded({
+    extended: false
+}));
 app.use(express.json());
 app.use('/api', routes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || APP_PORT;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}.`));
-
-
-
