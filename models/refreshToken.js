@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const refreshTokenSchema = new Schema({
     token: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
     }
 }, {
     timestamps: false
@@ -13,4 +14,3 @@ const refreshTokenSchema = new Schema({
 const refreshTokenModel = mongoose.model('refreshTokenModel', refreshTokenSchema, 'refreshTokens');
 
 module.exports = refreshTokenModel;
-

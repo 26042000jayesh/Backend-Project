@@ -58,6 +58,31 @@ const loginController = {
         } catch (err) {
             return next(err);
         }
+    },
+
+    async logout(req, res, next) {
+        // validation
+        const refreshSchema = Joi.object({
+            refresh_token: Joi.string().required(),
+        });
+        const {
+            error
+        } = refreshSchema.validate(req.body);
+
+        if (error) {
+            return next(error);
+        }
+        
+        try {
+            await RefreshTokenModel.deleteOne({
+                token: req.body.refresh_token
+            });
+        } catch (error) {
+            return next(new Error('Something went wrong in DB'));
+        }
+        res.json({
+            message: "User Logged Out Successfully"
+        });
     }
 
 };
