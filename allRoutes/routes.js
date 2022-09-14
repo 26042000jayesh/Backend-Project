@@ -5,6 +5,7 @@ const loginController = require("../controllers/auth/loginController")
 const userController = require("../controllers/auth/userController")
 const refreshController = require("../controllers/auth/refreshController")
 const auth = require("../middlewares/auth");
+const admin = require("../middlewares/admin");
 const productController = require("../controllers/productController");
 
 //auth end points
@@ -13,9 +14,9 @@ router.post('/register', registerController.register);
 //for exixting users only
 router.post('/login', loginController.login);
 router.get('/me', auth, userController.me);
-router.get('/refresh',refreshController.refresh);
+router.get('/refresh', refreshController.refresh);
 router.post('/logout', loginController.logout);
 
-router.post('/products',productController.store);
+router.post('/products', [auth, admin], productController.store);
 
 module.exports = router;

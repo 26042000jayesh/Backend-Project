@@ -49,7 +49,6 @@ const productController = {
                 });
 
                 return next(error);
-                // rootfolder/uploads/filename.png
             }
 
             const {
