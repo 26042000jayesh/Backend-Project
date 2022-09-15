@@ -18,5 +18,6 @@ router.get('/refresh', refreshController.refresh);
 router.post('/logout', loginController.logout);
 
 router.post('/products', [auth, admin], productController.store);
+router.put('/products/:id', [auth, admin], productController.update);
 
 module.exports = router;

@@ -69,7 +69,69 @@ const productController = {
             }
             res.status(201).json(document);
         });
+    },
+
+
+    async update(req, res, next) {
+        // TODO : delete the old uploaded image file if image is also updated
+        handleMultipartData(req, res, async (err) => {
+            if (err) {
+                return next(CustomErrorHandler.serverError(err.message));
+            }
+            let filePath;
+            if (req.file) {
+                filePath = req.file.path;
+            }
+            // validation
+            const productSchema = Joi.object({
+                name: Joi.string().required(),
+                price: Joi.number().required(),
+                size: Joi.string().required(),
+                image: Joi.string()
+            });
+            const {
+                error
+            } = productSchema.validate(req.body);
+            if (error) {
+                // Delete the uploaded file
+                if (req.file) {
+                    fs.unlink(`${appRoot}/${filePath}`, (err) => {
+                        if (err) {
+                            return next(
+                                CustomErrorHandler.serverError(err.message)
+                            );
+                        }
+                    });
+                }
+
+                return next(error);
+            }
+
+            const {
+                name,
+                price,
+                size
+            } = req.body;
+            let document;
+            try {
+                document = await Product.findByIdAndUpdate({
+                    _id: req.params.id
+                }, {
+                    name,
+                    price,
+                    size,
+                    ...(req.file && {
+                        image: filePath
+                    }),
+                }, {
+                    new: true
+                });
+            } catch (err) {
+                return next(err);
+            }
+            res.status(201).json(document);
+        });
     }
 }
 
-module.exports=productController;
+module.exports = productController;
