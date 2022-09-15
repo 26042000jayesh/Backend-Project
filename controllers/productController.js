@@ -2,7 +2,9 @@ const Product = require("../models/product")
 const multer = require("multer");
 const Joi = require("joi");
 const path = require("path");
+const fs = require("fs");
 const CustomErrorHandler = require("../services/CustomErrorHandler");
+const productModel = require("../models/product");
 
 //storage engine
 const storage = multer.diskStorage({
@@ -131,6 +133,41 @@ const productController = {
             }
             res.status(201).json(document);
         });
+    },
+
+    async destroy(req, res, next) {
+        const document = await productModel.findByIdAndDelete(req.params.id);
+        if (!document) {
+            return next(new Error('Nothing to delete'));
+        }
+        //delete uploaded image
+        const imagePath = document.image;
+        fs.unlink(`${appRoot}/${imagePath}`, (err) => {
+            if (err) {
+                return next(CustomErrorHandler.serverError(err.message));
+            }
+        });
+        res.json(document);  
+    },
+
+    async index(req,res,next){
+        let documents;
+        try {
+            documents=await productModel.find().select('-__v -_id -updatedAt');
+        } catch (error) {
+            return next(CustomErrorHandler.serverError(error.message));
+        }
+        res.json(documents);
+    },
+
+    async show(req,res,next){
+        let document;
+        try {
+            document=await productModel.findById(req.params.id).select('-__v -_id -updatedAt');
+        } catch (error) {
+            return next(CustomErrorHandler.serverError(error.message));
+        }
+        res.json(document);
     }
 }
 
