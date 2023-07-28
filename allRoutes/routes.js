@@ -17,6 +17,7 @@ router.get('/me', auth, userController.me);
 router.get('/refresh', refreshController.refresh);
 router.post('/logout', loginController.logout);
 
+//end points for products 
 router.post('/products', [auth, admin], productController.store);
 router.put('/products/:id', [auth, admin], productController.update);
 router.delete('/products/:id', [auth, admin], productController.destroy);

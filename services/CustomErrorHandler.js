@@ -1,3 +1,5 @@
+// A factory method is a special method defined on the class itself (using the static keyword) that handles the creation and initialization of objects. It provides a convenient way to create instances without directly calling the constructor.
+
 class CustomErrorHandler extends Error {
     constructor(status, msg) {
         super();
