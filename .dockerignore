@@ -1,0 +1,6 @@
+.git
+node_modules
+
+# It tells that .git and node_modules are in our image to ignore while building the container in another user’s computer.
+# We will omit to copy .git because we will be uploading our code to git and won’t want this in the user’s container.
+# We also add node modules to the .dockerignore file because when we ran `npm install` It will create node modules based on the package-lock.json. And we wouldn’t want to replace it while copying the application content to the working directory.

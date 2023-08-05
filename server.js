@@ -29,6 +29,9 @@ app.use(express.urlencoded({
 }));
 // express.json() is a built-in middleware function provided by the Express.js framework. It is used to parse incoming requests with JSON payloads. When this middleware is mounted using app.use(express.json()), it instructs Express to parse the incoming request body if it's in JSON format and populate the req.body property with the parsed data. This makes it easier to work with JSON data sent by clients in your application.
 app.use(express.json());
+app.get('/', (req, res) => {
+    res.json("Hello, world!");
+})
 app.use('/api', routes);
 app.use(errorHandler);
 

@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:5.0.5
+    container_name: mongodb-e-commerce
+    ports: 
+      - '27018:27018'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=Jayesh
+      - MONGO_INITDB_ROOT_PASSWORD=jayeshsecretpassword
+    volumes:
+      - e-commerce-data:/data/db
+  e-commerce-app:
+    image: latest/e-commerce-app
+    container_name: e-commerce-app
+    restart: always
+    ports:
+      - '8081:8081'
+volumes:
+  e-commerce-data:
+    driver: local
